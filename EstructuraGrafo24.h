@@ -25,14 +25,10 @@ struct TuplaVertice
 struct GrafoSt
 {
     u32 delta; //delta
-    u32 cant_v; //Cantidad de vertices 
-    u32 cant_l; //Cantidad de lados
+    u32 cant_vertices; //Cantidad de vertices 
+    u32 cant_lados; //Cantidad de lados
     struct Vertice *vertices; // Vertices del grafo
-    struct TuplaVertice *aristas; // Los lados.
 };
-
-
-
 
 // grafo = (int vertices, lista aristas) (lista de int, )
 // Grafo = 5 vertices, [(1,2), (2,3), (3,4), (4,5), (5,1)], 
