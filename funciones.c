@@ -19,6 +19,14 @@ Grafo ConstruccionDelGrafo(){
 
 void DestruirGrafo(Grafo G){
     
+    for (u32 i = 0; i < G->cant_vertices; i++)
+    {
+        free(G->vertices[i]->vecinos);
+        
+    } 
+    free(G->vertices);
+    free(G);
+    G = NULL;
 }
 
 // Funciones para sacar informacion
