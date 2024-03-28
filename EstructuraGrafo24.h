@@ -1,5 +1,5 @@
-#ifndef EstrucGrafo24_H
-#define EstrucGrafo24_H
+#ifndef EstructuraGrafo24_H
+#define EstructuraGrafo24_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,7 +13,8 @@ struct Vertice
     u32 id;
     color color;
     u32 grado;
-    struct Vertice *vecinos; // Arreglo de vertices que son vecinos 
+    u32 cant_vecinos;
+    struct Vertice **vecinos; // Arreglo dinamico de vertices que son vecinos
 };
 
 struct TuplaVertice
@@ -27,8 +28,8 @@ struct GrafoSt
     u32 delta; //delta
     u32 cant_v; //Cantidad de vertices 
     u32 cant_l; //Cantidad de lados
-    struct Vertice *vertices; // Vertices del grafo
-    struct TuplaVertice *aristas; // Los lados.
+    struct Vertice *vertices; // Array de vertices
+    struct TuplaVertice *aristas; // Array de aristas (tuplas de vertices)
 };
 
 

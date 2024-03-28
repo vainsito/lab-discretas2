@@ -1,13 +1,12 @@
 #ifndef APIG24_H
 #define APIG24_H
 
-
 #include <stdio.h>
 #include <stdlib.h>
+#include "EstructuraGrafo24.h"
 
 
 //el .h de abajo debe tener definida GrafoSt, u32 y color.
-#include "EstructuraGrafo24.h"
 
 
 
