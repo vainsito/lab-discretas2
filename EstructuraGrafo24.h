@@ -32,9 +32,6 @@ struct GrafoSt
     struct TuplaVertice *aristas; // Array de aristas (tuplas de vertices)
 };
 
-
-
-
 // grafo = (int vertices, lista aristas) (lista de int, )
 // Grafo = 5 vertices, [(1,2), (2,3), (3,4), (4,5), (5,1)], 
 
