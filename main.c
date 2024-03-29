@@ -18,7 +18,7 @@ int main()
     printf("Numero de lados: %d\n", NumeroDeLados(G));
     printf("Delta: %d\n", Delta(G));
     
-    for (u32 i = 0; i < NumeroDeVertices(G); i++)
+/*     for (u32 i = 0; i < NumeroDeVertices(G); i++)
     {
         u32 grado = G->vertices[i].grado;
         color color = G->vertices[i].color;
@@ -29,11 +29,20 @@ int main()
             printf("%d ",G->vertices[i].vecinos[j]);   
         }
         printf("\n");
-    }
+    } 
+    
+    */
 
-    u32 vertice = 3;
-    u32 resultado = Grado(vertice, G);
-    printf("%u \n", resultado);
+/*     printf("Color del vertice 0: %u \n", Color(0, G));
+    printf("Vecino 0 del vertice 0: %d\n", Vecino(0, 0, G));
+    // Numero de vertices
+    printf("Numero de vertices: %d\n", NumeroDeVertices(G));
+    // Numero de lados
+    printf("Numero de lados: %d\n", NumeroDeLados(G));
+    // Delta
+    printf("Delta: %d\n", Delta(G));
+    // Grado
+    printf("Grado del vertice 0: %d\n", Grado(0, G)); */
 
     DestruirGrafo(G);
     return 0;

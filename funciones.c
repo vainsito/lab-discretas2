@@ -69,6 +69,12 @@ Grafo ConstruirGrafo(){
         free(grafo); // Libero la memoria del grafo
         return NULL; // Retorno NULL
     }
+    // Inicializo los vertices para evitar errores de memoria
+    for (u32 i = 0; i < cant_vert; i++) {
+        grafo->vertices[i].grado = 0;
+        grafo->vertices[i].vecinos = NULL;
+        grafo->vertices[i].color = 0;
+    }
     // Ahora voy a cargar los vertices y lados en el grafo, hacemos un while para ir leyendo y llamamos a la funcion new_vertice
     while(fgets(line, sizeof(line), stdin)){ // Mientras pueda leer una linea de stdin
         if (line[0] == 'c') {
