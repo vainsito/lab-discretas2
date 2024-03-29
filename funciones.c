@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "APIG24.h"
 #include <math.h>
+#include "EstructuraGrafo24.h"
 
 // Hace algo.
 // Funcion auxiliar para agregar vecinos a un vertice
@@ -22,13 +23,13 @@ void agregar_vecino(struct Vertice *vertice, struct Vertice *vecino)
 void agregar_lado(Grafo grafo, struct Vertice *v1, struct Vertice *v2, u32 posicion)
 {
     // No mem dinamica, tenemos una cantidad fija de aristas
-    grafo->aristas[posicion].v1 = v1; // Asigno el v1 de la tupla de vertices
-    grafo->aristas[posicion].v2 = v2; // Asigno el v2 de la tupla de vertices
+    grafo->aristas[posicion].v1 = *v1; // Asigno el v1 de la tupla de vertices
+    grafo->aristas[posicion].v2 = *v2; // Asigno el v2 de la tupla de vertices
 
 }
 
 
-Grafo ConstruccionDelGrafo(){
+Grafo ConstruirGrafo(){
     // Inicializo el grafo y le aloco memoria
     Grafo grafo = (Grafo)malloc(sizeof(struct GrafoSt)); // Aloco memoria para el grafo
     if(grafo == NULL){ // Si no se pudo alocar memoria
@@ -44,7 +45,7 @@ Grafo ConstruccionDelGrafo(){
 
     while (fgets(line, sizeof(line), stdin)) // Mientras pueda leer una linea de stdin
     {
-        if (line[0] = 'c') {
+        if (line[0] == 'c') {
             continue; // Si la linea empieza con 'c' sigo leyendo
         }
         
@@ -55,14 +56,14 @@ Grafo ConstruccionDelGrafo(){
         }
     }
 
-    if (cant_vert == 0 || cant_vert == 0) // Si no se pudo leer la cantidad de vertices o lados
+    if (cant_vert == 0 || cant_aristas == 0) // Si no se pudo leer la cantidad de vertices o lados
     {
         free(grafo); // Libero la memoria del grafo
         return NULL; // Retorno NULL
     }
     
-    grafo->cant_v = cant_vert; // Asigno la cantidad de vertices al grafo
-    grafo->cant_l = cant_aristas; // Asigno la cantidad de lados al grafo
+    grafo->cant_vertices = cant_vert; // Asigno la cantidad de vertices al grafo
+    grafo->cant_lados = cant_aristas; // Asigno la cantidad de lados al grafo
     // Voy a ir cargando los vertices y lados en el grafo, pero primero tengo que alocar memoria para los vertices y lados
     grafo->vertices = (struct Vertice*)malloc(cant_vert * sizeof(struct Vertice)); // Aloco memoria para los vertices
     if(grafo->vertices == NULL){ // Si no se pudo alocar memoria
@@ -82,7 +83,7 @@ Grafo ConstruccionDelGrafo(){
     u32 cant_vert_leidos = 0; // Inicializo la cantidad de lineas en 0, para indexar array de vertices y aristas
     while (fgets(line, sizeof(line), stdin)) // Mientras pueda leer una linea de stdin
     {
-        if (line[0] = 'c' || line[0] == 'p') {
+        if (line[0] == 'c' || line[0] == 'p') {
             continue; // Si la linea empieza con 'c' sigo leyendo
         }
         
@@ -92,39 +93,36 @@ Grafo ConstruccionDelGrafo(){
             sscanf(line, "e %d %d", &v1, &v2); // Leo los vertices de la arista
             // Ahora tengo que cargar la arista en el grafo
             // Primero tengo que buscar los vertices en el grafo
-            struct Vertice *vertice1 = NULL; // Creo un puntero a vertice1
-            struct Vertice *vertice2 = NULL; // Creo un puntero a vertice2
+            struct Vertice *vertice1 = malloc(sizeof(struct Vertice)); // Asigno memoria para vertice1
+            struct Vertice *vertice2 = malloc(sizeof(struct Vertice)); // Asigno memoria para vertice2
+
+            if (vertice1 == NULL || vertice2 == NULL) {
+                // Manejar error de asignación de memoria
+                printf("Error: No se pudo asignar memoria para los vertices\n");
+                return NULL;
+                }
+
             vertice1->color = 0;
             vertice1->grado = 0;
             vertice1->id = v1;
+            vertice2->id = v2;
             agregar_vecino(vertice1, vertice2);
-            grafo->vertices[cant_vert_leidos] = vertice1; // Asigno el vertice1 al grafo en orden de lectura
+            grafo->vertices[cant_vert_leidos] = *vertice1; // Asigno el vertice1 al grafo en orden de lectura
             agregar_lado(grafo, vertice1, vertice2, cant_vert_leidos); // Agrego la arista al grafo
             cant_vert_leidos++; // Aumento la cantidad de lineas
+            }
         }
-    }
-    // Imprimo para testear que se haya cargado bien el grafo, vertices
-    for (int i = 0; i < grafo->cant_v; i++)
-    {
-        printf("Vertice %d: %d\n", i, grafo->vertices[i]->id);
-    }
-    // Imprimo aristas para testear que se haya cargado bien el grafo, aristas
-    for (int i = 0; i < grafo->cant_l; i++)
-    {
-        printf("Arista %d: (%d, %d)\n", i, grafo->aristas[i].v1->id, grafo->aristas[i].v2->id);
-    }
-    // Delta
-    printf("Delta: %d\n", grafo->delta);
+
     return grafo; // Retorno el grafo
 }
 
 void DestruirGrafo(Grafo G){
-    
-    for (u32 i = 0; i < G->cant_vertices; i++)
-    {
-        free(G->vertices[i]->vecinos);
-        
-    } 
+    for (u32 i = 0; i < G->cant_vertices; i++){
+        for (u32 j = 0; j < G->vertices[i].cant_vecinos; j++){
+            free(G->vertices[i].vecinos[j]);
+        }
+        free(G->vertices[i].vecinos);
+        } 
     free(G->vertices);
     free(G);
     G = NULL;
@@ -150,40 +148,41 @@ u32 Grado(u32 i,Grafo G){
     if(i >= G->cant_vertices){
         return 0;
     }
-    return G->vertices[i]->grado;
+    u32 res = G->vertices[i].grado;
+    return res;
 }
 
 color Color(u32 i,Grafo G){
-    if(i <= G->cant_verticesert){
-         return G->vertices[i]->color;
+    if(i < G->cant_vertices){
+        color res = G->vertices[i].color;
+        return res;
     } else {
         return (u32)(pow(2,32)-1); // Investigar como hacer potencias en C dios mio dios mio
     }
 }
 
 u32 Vecino(u32 j,u32 i,Grafo G){
-    if(i >= G->cant_verticesert || j >= Grado(i,G)){
+    if(i >= G->cant_vertices || (i < G->cant_vertices) ^ (j >= Grado(i,G))){
         return (u32)(pow(2,32)-1);
     }
-    return G->vertices[i]->vecinos[j]->id;
+    u32 id_vecino = G->vertices[i].vecinos[j]->id;
+    return id_vecino;
 }
 
 void AsignarColor(color x,u32 i,Grafo  G){
-    if(i <= G->cant_verticesert){
-        G->vertices[i]->color = x;
+    if(i <= G->cant_vertices){
+        G->vertices[i].color = x;
     }
-    return;
 }
 
 void ExtraerColores(Grafo G,color* Color){
-    for(int i = 0 ; i < G->cant_vertices ; i++){ //entre 0 y n-1
-        Color[i] = G->vertices[i]->color;
+    for(u32 i = 0 ; i < G->cant_vertices ; i++){ //entre 0 y n-1
+        Color[i] = G->vertices[i].color;
     }
-    return;
 }
 
 void ImportarColores(color* Color,Grafo  G){
-    for(int i = 0 ; i < G->cant_vertices ; i++){ //entre 0 y n-1
-        G->vertices[i]->color = Color[i];
+    for(u32 i = 0 ; i < G->cant_vertices ; i++){ //entre 0 y n-1
+        G->vertices[i].color = Color[i];
     }
 }

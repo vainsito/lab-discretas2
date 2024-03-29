@@ -5,8 +5,7 @@
 #include <stdlib.h>
 
 typedef unsigned int u32; 
-typedef u32 color; 
-
+typedef u32 color;
 
 struct Vertice
 {
@@ -20,14 +19,13 @@ struct Vertice
 struct TuplaVertice
 {
     struct Vertice v1;
-    struct Vertice v2;
+    struct Vertice v2; // Tupla de vertices
 };
 
-struct GrafoSt
-{
+struct GrafoSt {
     u32 delta; //delta
-    u32 cant_v; //Cantidad de vertices 
-    u32 cant_l; //Cantidad de lados
+    u32 cant_vertices; //Cantidad de vertices 
+    u32 cant_lados; //Cantidad de lados
     struct Vertice *vertices; // Array de vertices
     struct TuplaVertice *aristas; // Array de aristas (tuplas de vertices)
 };

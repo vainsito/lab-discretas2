@@ -9,13 +9,11 @@
 //el .h de abajo debe tener definida GrafoSt, u32 y color.
 
 
-
 //Grafo es un puntero a una estructura GrafoSt, la cual debe estar definida en el .h de arriba
 
-typedef GrafoSt *Grafo;
+typedef struct GrafoSt *Grafo;
 
-
-//construcci'on/destrucci'on
+//construccion/destruccion
 
 //debe leer desde stdin
 Grafo ConstruirGrafo();
