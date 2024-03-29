@@ -1,6 +1,6 @@
 Para compilar el programa usar:
 
-    gcc -Wall -Wextra -O3 -std=c99 -o main main.c funciones.c
+    gcc -Wall -Wextra -O3 -std=c99 -fsanitize=address -o main main.c funciones.c
 
 Para pasar un grafo al programa usar:
 

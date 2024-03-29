@@ -25,15 +25,15 @@ int main()
         printf("Grado del vertice %d: %d\n", i, grado);
         printf("Color del vertice %d: %d\n", i, color);
         printf("Vecinos del vertice %d: ", i);
-        for (u32 j = 0; j < G->vertices[j].grado; j++){
-            printf("%d",G->vertices[i].vecinos[j]);   
+        for (u32 j = 0; j < G->vertices[i].grado; j++){
+            printf("%d ",G->vertices[i].vecinos[j]);   
         }
         printf("\n");
     }
-    
+
     u32 vertice = 3;
     u32 resultado = Grado(vertice, G);
-    printf("%u", resultado);
+    printf("%u \n", resultado);
 
     DestruirGrafo(G);
     return 0;
